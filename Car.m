@@ -11,7 +11,7 @@ classdef Car
         KB2 = 150000; %Rigidez de la cubierta delantera derecha N/m
         KB3 = 150000; %Rigidez de la cubierta trasera izquierda N/m
         KB4 = 150000; %Rigidez de la cubierta trasera derecha N/m
-        m = 1600 ; %Masa suspendida del vehículo N
+        m = 2100 ; %Masa suspendida del vehículo N
         m1 = 2; %Masa de la rueda delantera izquierda N
         m2 = 2; %Masa de la rueda delantera derecha N
         m3 = 2; %Masa de la rueda trasera izquierda N
@@ -22,8 +22,8 @@ classdef Car
         bA4 = 475; %Amortiguación suspensión trasera derecha N*s/m
         a = 1.2 ; %Distancia CG al tren delantero m
         b = 2 ; %Distancia CG al tren trasero m
-        Ix = 6140 ; %Momento de inercia respecto a eje x Kg*m²
-        Iy = 27600 ; %Momento de inercia respecto a eje y Kg*m²
+        Ix = 614 ; %Momento de inercia respecto a eje x Kg*m²
+        Iy = 2760 ; %Momento de inercia respecto a eje y Kg*m²
         W = 1.6 ; %Distancia entre ejes m
     end
 end

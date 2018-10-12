@@ -1,3 +1,6 @@
+%% Correr directamente todo el código
+% se obtendrá la matriz G y la función de transferencia al multiplicar G
+% por un step
 %% clear
 clear; clc
 %% Parámetros
@@ -148,11 +151,32 @@ A = [zeros(7), eye(7);M\K, M\B_];
 B = [zeros(7,4); M\H];
 
 %% Funcion de salida
-C = [1, W/4, 0, 0, 0, 0, 0 , zeros(1,7) ; 1, 0, b, 0, 0, 0, 0 , zeros(1,7)]; %Salida del conductor/baúl
+C = [zeros(1,7), 1, W/4, 0, 0, 0, 0, 0 ; zeros(1,7), 1, 0, b, 0, 0, 0, 0]; %Salida del conductor/baúl
 
-D = zeros(2,4);
+D = 0;
 
 %% Creacion de espacio de estados y función de transferencia
 syscond = ss(A,B,C,D); %Lectura: Conductor
 G = tf(syscond);
+% s = tf([1 0], 1);
+% ZZ1 = minreal(G(1,1) + G(1,2) + G(1,3) + G(1,4)); %Conductor
+% ZZ2 = minreal(G(2,1) + G(2,2) + G(2,3) + G(2,4)); %Baul
+% 
+% [y,t]=step(ZZ1,2); 
+% 
+% y=y*0.1;
+% T=[t;t+t(end)];
+% Y=[y;0.1-y];
+% ZA=s^2*ZZ1
+% 
+% [x,t]=step(ZA,2); 
+% 
+% x=x*0.1;
+% T=[t;t+t(end)];
+% X=[x;0.1-y];
+% 
+% plot(T,X)
+% grid on
+
 zpk(G)
+stepplot(G)
