@@ -2,7 +2,7 @@
 % se obtendrá la matriz G y la función de transferencia al multiplicar G
 % por un step
 %% clear
-clear; clc
+clear
 %% Parámetros
 global KA
 global KB
