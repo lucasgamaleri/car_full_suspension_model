@@ -102,4 +102,3 @@ subplot(223) ; plot(t,x(:,1)) ; xlabel('t seg') ;
 subplot(224) ; plot(t,x(:,2)) ; xlabel('t seg') ; 
 grid on
 
-
