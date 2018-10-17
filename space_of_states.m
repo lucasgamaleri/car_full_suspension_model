@@ -1,8 +1,11 @@
-%% Correr directamente todo el código
-% se obtendrá la matriz G y la función de transferencia al multiplicar G
-% por un step
-%% clear
-clear; clc
+%% INSTRUCCIONES DE USO
+% 1. Correr el programa, se cargarán todos los datos al workspace
+% 2. Escriba ZZ(1) en la ventana de comandos para visualizar las funciones de
+%       transferencia para el conductor tras un step
+% 3. Escriba ZZ(2) en la ventana de comandos para visualizar las funciones
+% de transferencia para el baúl tras un step
+% 4. Escriba ZA(1) para visualizar la VELOCIDAD del conductor tras un step
+% 5. Escriba ZB(2) para visualizar la VELOCIDAD del baúl tras un step
 %% Parámetros
 global KA
 global KB
@@ -57,50 +60,54 @@ H = [0 , 0 ; 0 , 0 ; -kB1 , 0 ; 0 ,-kB2];
 %% Función de transferencia
 
 A = [zeros(size(K)) , eye(size(Bb)); ...
-    M\K , M\Bb];
+    -M\K , -M\Bb];
 
-B = [zeros(size(H)) ; M\H];
+B = [zeros(size(H)) ; -M\H];
 
-%C=[0 0 0 0 1 0 0 0 ; 0 0 0 0 1 0 b 0]; 
-C = [0 0 0 0 1 0 0 0];
+C=[0 0 0 0 1 0 0 0 ; 0 0 0 0 1 b 0 0]; 
+%C = [0 0 0 0 1 0 0 0];
 D = 0;
 
 S = ss(A,B,C,D); %space state 
 Gt = tf(S); %transfer function 
 
-s = tf([1 0],1);  
+s = tf([1 0],1); %h = tf([1 0],1) specifies the pure derivative h(s) = s 
 G1 = Gt(1,:);
-G2 = Gt(2);
-% G2r = Gt(2)*exp(-0.1*s);
+G2 = Gt(2,:);
+% G2r = Gt(1,:)*exp(-0.1*s);
 
-ZZ=G1+G2;
-ZZ=zpk(ZZ)
+ZZ=G1+G2; %Transfer function as a sum of every input variable
+ZZ=zpk(ZZ); %Zero/pole/gain model
 
-[y,t]=step(ZZ,2); 
+Tfinal = 2;
+[y,t]=step(ZZ,Tfinal); 
+
 
 y=y*0.1;
-T=[t;t+t(end)];
-Y=[y;0.1-y];
+y_cond = y(:,:,1); % Driver output
+y_trunk = y(:,:,2); % Trunk output
+Ty=[t;t+t(end)];
+Y_cond=[y_cond;0.1-y_cond];
+Y_trunk=[y_trunk;0.1-y_trunk];
 
-%plot(T,Y)
-%grid on
 
+ZA=s^2*ZZ; %Derivada
 
-s=tf('s')
-s=s
+[w,tw]=step(ZA,Tfinal); 
 
-ZA=s^2*ZZ
+w=w*0.1;
+w_cond = w(:,:,1); % Driver output
+w_trunk = w(:,:,2); % Trunk output
+Tw=[tw;tw+tw(end)];
+W_cond=[w_cond;0.1-w_cond];
+W_trunk=[w_trunk;0.1-w_trunk];
 
-[x,t]=step(ZA,2); 
-
-x=x*0.1;
-T=[t;t+t(end)];
-X=[x;0.1-y];
-
-figure
-subplot(121) ; plot(t,x(:,1)) ; xlabel('t seg') ; 
-subplot(122) ; plot(t,x(:,2)) ; xlabel('t seg') ; 
 
 grid on
 
+%% Representación
 
+subplot(221) ; plot(Ty,Y_cond) ; title('Posición del conductor'); xlabel('t seg') ; ylabel('z m'); grid on
+subplot(222) ; plot(Ty,Y_trunk) ; title('Posición del baul'); xlabel('t seg') ; ylabel('z m'); grid on
+subplot(223) ; plot(Tw,W_cond) ; title('Velocidad del conductor'); xlabel('t seg') ; ylabel('w m/s'); grid on
+subplot(224) ; plot(Tw,W_trunk) ; title('Velocidad del baul'); xlabel('t seg') ; ylabel('w m/s'); grid on

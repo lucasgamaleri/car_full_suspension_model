@@ -13,8 +13,8 @@ classdef Car
         m1 = 2; %Masa de la rueda delantera izquierda N
         m2 = 2; %Masa de la rueda delantera derecha N
        
-        b1 = 475 ; %Amortiguación suspensión delantera izquierda N*s/m
-        b2 = 475; %Amortiguación suspensión delantera derecha N*s/m
+        b1 = 1000; %Amortiguación suspensión delantera izquierda N*s/m
+        b2 = 1000; %Amortiguación suspensión delantera derecha N*s/m
        
         a = 1.2 ; %Distancia CG al tren delantero m
         b = 2 ; %Distancia CG al tren trasero m
