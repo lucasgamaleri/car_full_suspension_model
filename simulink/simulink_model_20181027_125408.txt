@@ -1,0 +1,3 @@
+=== Simulation (Elapsed: 28 sec) ===
+    Error:Error in port widths or dimensions. Output port 1 of 'simulink_model/Sine Wave' is a one dimensional vector with 1 elements.
+    Error:Error in port widths or dimensions. Input port 1 of 'simulink_model/State-Space' has 2 elements.  This port does not accept the dimensions (or orientation) specified by the input signal.
